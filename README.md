@@ -66,51 +66,8 @@ This project achieves the following five measurable goals using SQL window funct
 
 ### Entity Relationship Diagram
 
-```mermaid
-erDiagram
-    REGIONS ||--o{ CUSTOMERS : "has"
-    CUSTOMERS ||--o{ ACCOUNTS : "owns"
-    ACCOUNTS ||--o{ TRANSACTIONS : "contains"
-    
-    REGIONS {
-        NUMBER region_id PK
-        VARCHAR2 region_name
-        VARCHAR2 region_code UK
-        VARCHAR2 manager_name
-        DATE created_date
-    }
-    
-    CUSTOMERS {
-        NUMBER customer_id PK
-        VARCHAR2 first_name
-        VARCHAR2 last_name
-        VARCHAR2 email UK
-        VARCHAR2 phone
-        NUMBER region_id FK
-        DATE registration_date
-        VARCHAR2 customer_status
-    }
-    
-    ACCOUNTS {
-        NUMBER account_id PK
-        NUMBER customer_id FK
-        VARCHAR2 account_type
-        VARCHAR2 account_number UK
-        NUMBER balance
-        DATE opening_date
-        VARCHAR2 account_status
-    }
-    
-    TRANSACTIONS {
-        NUMBER transaction_id PK
-        NUMBER account_id FK
-        VARCHAR2 transaction_type
-        NUMBER amount
-        DATE transaction_date
-        VARCHAR2 description
-        VARCHAR2 reference_number UK
-    }
-```
+<img width="405" height="962" alt="ER Diagram" src="https://github.com/user-attachments/assets/cf41690d-e9b1-432d-8a31-7fab3c9e11e6" />
+
 
 ### Table Descriptions
 
