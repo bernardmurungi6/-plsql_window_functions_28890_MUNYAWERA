@@ -1,11 +1,11 @@
 # ABC Bank Database Analysis: SQL JOINs & Window Functions Project
 
-**Student Name:** MUNYAWERA  
+**Student Name:** MUNYAWERA MURUNGI Henry Bernard  
 **Student ID:** 28890  
 **Course:** INSY 8311 - Database Development with PL/SQL  
 **Instructor:** Eric Maniraguha  
 **Institution:** Adventist University of Central Africa (AUCA)  
-**Submission Date:** February 06, 2026
+**Submission Date:** February 05, 2026
 
 ---
 
