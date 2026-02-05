@@ -104,7 +104,7 @@ Records all banking transactions performed on accounts.
 
 ---
 
-## 🔗 Part A: SQL JOINs Implementation
+## Part A: SQL JOINs Implementation
 
 ### 1. INNER JOIN
 **Purpose:** Retrieve all transactions with complete customer and account details
@@ -129,6 +129,8 @@ INNER JOIN CUSTOMERS c ON a.customer_id = c.customer_id
 INNER JOIN REGIONS r ON c.region_id = r.region_id
 ORDER BY t.transaction_date DESC;
 ```
+![INNER JOIN](https://github.com/user-attachments/assets/f20112b0-5b07-4c02-b4d8-4f7196e9a98d)
+
 
 **Business Interpretation:**  
 This query provides a complete view of all banking transactions along with customer and regional information. It helps the bank understand transaction patterns by linking transactional data with customer demographics and geographical distribution, ensuring data integrity for management reporting.
@@ -158,6 +160,8 @@ INNER JOIN REGIONS r ON c.region_id = r.region_id
 WHERE t.transaction_id IS NULL
 ORDER BY c.registration_date;
 ```
+![LEFT JOIN](https://github.com/user-attachments/assets/5f61d417-1d5c-445d-a768-651e3f6c7338)
+
 
 **Business Interpretation:**  
 This analysis identifies customers who have opened accounts but never performed any transactions. These dormant accounts represent potential revenue opportunities and may indicate customer dissatisfaction. The bank can use this list to launch targeted marketing campaigns or provide additional customer support.
@@ -187,6 +191,8 @@ INNER JOIN CUSTOMERS c ON a.customer_id = c.customer_id
 WHERE t.transaction_id IS NULL
 ORDER BY a.opening_date;
 ```
+![RIGHT JOIN](https://github.com/user-attachments/assets/523077c6-b87c-44e5-9c5e-8a92c5b7da76)
+
 
 **Business Interpretation:**  
 This query reveals accounts that exist in the system but have no associated transactions. Dormant accounts pose compliance risks and tie up system resources without generating revenue. The bank can implement dormancy fees, send reactivation notifications, or consider account closure procedures.
@@ -198,7 +204,8 @@ This query reveals accounts that exist in the system but have no associated tran
 
 **Business Use Case:** Comprehensive data quality audit and system integrity check.
 
-```sql
+```
+sql
 SELECT 
     c.customer_id,
     c.first_name || ' ' || c.last_name AS customer_name,
@@ -213,6 +220,8 @@ FROM CUSTOMERS c
 FULL OUTER JOIN ACCOUNTS a ON c.customer_id = a.customer_id
 WHERE c.customer_id IS NULL OR a.account_id IS NULL;
 ```
+![FULL OUTER JOIN](https://github.com/user-attachments/assets/5a2a2a4a-c4aa-43f7-be74-00bde55e375e)
+
 
 **Business Interpretation:**  
 This comprehensive audit identifies data inconsistencies including customers without accounts and orphaned accounts. Customers without accounts may represent incomplete registrations, while orphaned accounts indicate critical data integrity issues requiring immediate attention for regulatory compliance.
@@ -239,13 +248,15 @@ INNER JOIN REGIONS r ON c1.region_id = r.region_id
 WHERE ABS(c1.registration_date - c2.registration_date) <= 7
 ORDER BY r.region_name;
 ```
+![SELF JOIN](https://github.com/user-attachments/assets/c6e4a517-fe79-4a29-9f22-152facd4d969)
+
 
 **Business Interpretation:**  
 This analysis compares customers within the same region who registered within one week of each other. This pattern may reveal successful regional marketing campaigns, referral programs, or community-based acquisition strategies. It also helps detect potential fraud patterns.
 
 ---
 
-## 📊 Part B: Window Functions Implementation
+## Part B: Window Functions Implementation
 
 ### Category 1: Ranking Functions
 
@@ -262,6 +273,8 @@ SELECT
 FROM TRANSACTIONS t
 INNER JOIN ACCOUNTS a ON t.account_id = a.account_id;
 ```
+![ROW_NUMBER ](https://github.com/user-attachments/assets/191da203-e38e-4a27-9d0c-8007f66d3d80)
+
 
 **Interpretation:** Tracks chronological order of customer activities for transaction history displays and identifying first-time transactions.
 
@@ -282,6 +295,8 @@ LEFT JOIN TRANSACTIONS t ON a.account_id = t.account_id
 GROUP BY r.region_name, r.region_id, c.customer_id, c.first_name, c.last_name
 ORDER BY r.region_name, customer_rank;
 ```
+![RANK ()](https://github.com/user-attachments/assets/c4052c78-6c49-49c0-ac3e-9d4d037aa397)
+
 
 **Interpretation:** Identifies VIP customers in each region for targeted premium services and relationship management.
 
@@ -297,6 +312,8 @@ SELECT
         AS balance_rank
 FROM ACCOUNTS a;
 ```
+![DENSE_RANK ()](https://github.com/user-attachments/assets/5dec6d3c-332f-49ae-9201-5508cd83ec4a)
+
 
 **Interpretation:** Useful for creating tiered service levels and identifying high-value accounts for special interest rates.
 
@@ -310,6 +327,8 @@ SELECT
     ROUND(PERCENT_RANK() OVER (ORDER BY t.amount) * 100, 2) AS percentile
 FROM TRANSACTIONS t;
 ```
+![PERCENT_RANK ()](https://github.com/user-attachments/assets/a22d5272-67d4-408e-92ee-481835cbb84d)
+
 
 **Interpretation:** High percentile transactions warrant fraud monitoring, while low percentiles indicate micro-transactions.
 
@@ -332,6 +351,8 @@ SELECT
 FROM TRANSACTIONS t
 INNER JOIN ACCOUNTS a ON t.account_id = a.account_id;
 ```
+![SUM OVER WITH ROWS ](https://github.com/user-attachments/assets/10e8568f-cb2c-497b-a442-3ea0349c3280)
+
 
 **Interpretation:** Visualizes account balance growth and helps forecast future account growth for liquidity management.
 
@@ -347,6 +368,8 @@ SELECT
                         AND CURRENT ROW) AS weekly_avg
 FROM TRANSACTIONS t;
 ```
+![AVG](https://github.com/user-attachments/assets/d12a685b-ef16-4fe2-8567-9ef61e22c3af)
+
 
 **Interpretation:** Smooths short-term fluctuations and reveals longer-term trends in customer behavior.
 
@@ -364,6 +387,8 @@ INNER JOIN ACCOUNTS a ON t.account_id = a.account_id
 INNER JOIN CUSTOMERS c ON a.customer_id = c.customer_id
 INNER JOIN REGIONS r ON c.region_id = r.region_id;
 ```
+![MIN AND MAX ](https://github.com/user-attachments/assets/ab8f80b5-703c-4f04-bcac-7bebedbc22e3)
+
 
 **Interpretation:** Identifies regional economic differences and detects unusual transaction patterns.
 
@@ -389,6 +414,8 @@ SELECT
     total - LAG(total) OVER (ORDER BY month) AS growth
 FROM monthly_data;
 ```
+![LAG](https://github.com/user-attachments/assets/bd67b78c-a123-44d7-8293-82788dc01747)
+
 
 **Interpretation:** Reveals growth trends and seasonal patterns for strategic planning.
 
@@ -408,6 +435,8 @@ SELECT
 FROM TRANSACTIONS t
 INNER JOIN ACCOUNTS a ON t.account_id = a.account_id;
 ```
+![LEAD ](https://github.com/user-attachments/assets/f0ac47db-ee46-4751-8716-d1e122bbcf25)
+
 
 **Interpretation:** Identifies dormancy risks and helps predict account activity levels.
 
@@ -444,6 +473,8 @@ SELECT
     END AS segment
 FROM customer_activity;
 ```
+![NTILE(4)](https://github.com/user-attachments/assets/ddb0b3d8-9564-4f21-b276-5590704bd253)
+
 
 **Interpretation:** Enables targeted marketing and personalized service delivery across customer tiers.
 
@@ -466,6 +497,8 @@ SELECT
     END AS tier
 FROM ACCOUNTS a;
 ```
+![CUM_DIST](https://github.com/user-attachments/assets/f2395e3b-f26a-4063-bb04-1734883f14a7)
+
 
 **Interpretation:** Informs pricing strategies and product development for specific balance tiers.
 
@@ -657,76 +690,6 @@ plsql_window_functions_28890_MUNYAWERA/
 
 12. Few, S. (2012). *Show Me the Numbers: Designing Tables and Graphs to Enlighten* (2nd ed.). Analytics Press.
 
----
-
-## Academic Integrity Statement
-
-> **"All sources were properly cited. Implementations and analysis represent original work. No AI-generated content was copied without attribution or adaptation."**
-
-### Declaration
-I, **MUNYAWERA (Student ID: 28890)**, hereby declare that:
-
-1.  This assignment is my own original work
-2.  All SQL queries were written by me based on understanding of course materials
-3.  All business interpretations represent my own analytical thinking
-4.  No code was copied from online sources without proper citation
-5.  No AI tools (ChatGPT, GitHub Copilot, etc.) were used to generate answers
-6.  All referenced materials are properly cited in the References section
-7.  I understand that plagiarism violates academic integrity and will result in disciplinary action
-
-### Evidence of Personal Work
-Screenshots included in the `/screenshots/` directory demonstrate:
-- SQL queries executed in my Oracle SQL Developer environment
-- Results generated from my own database instance
-- Timestamp evidence showing work progression over multiple days
-- Personal annotations and analysis comments
-
-### Collaboration Statement
-This is an individual assignment. I did not:
-- Copy code from other students
-- Share my solutions with classmates
-- Use unauthorized external help or tutoring services
-
-**Signed:** MUNYAWERA  
-**Date:** February 05, 2026  
-**Student ID:** 28890
-
----
-
-## Contact Information
-
-**Student:** MUNYAWERA  
-**Student ID:** 28890  
-**Email:** [Your AUCA Email]  
-**Course:** INSY 8311 - Database Development with PL/SQL  
-**Instructor:** Eric Maniraguha (eric.maniraguha@auca.ac.rw)
-
----
-
-## License
-
-This project is submitted as academic coursework for INSY 8311 at Adventist University of Central Africa (AUCA). All rights reserved.
-
----
-
-## Acknowledgments
-
-- **Instructor Eric Maniraguha** for comprehensive SQL teaching and guidance
-- **AUCA Database Systems Program** for providing learning resources
-- **Oracle Corporation** for database documentation and LiveSQL platform
-- **Classmates** for collaborative learning environment (without code sharing)
-
----
-
-##  Project Statistics
-
-- **Total SQL Scripts:** 4 files
-- **Total Lines of Code:** 1,000+ lines
-- **Total Queries:** 20+ unique queries
-- **Documentation:** 1,500+ lines of markdown
-- **Time Investment:** 15+ hours
-
----
 
 *"Whoever is faithful in very little is also faithful in much."* — Luke 16:10
 
