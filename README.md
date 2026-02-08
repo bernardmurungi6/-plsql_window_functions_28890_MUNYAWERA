@@ -691,10 +691,6 @@ plsql_window_functions_28890_MUNYAWERA/
 12. Few, S. (2012). *Show Me the Numbers: Designing Tables and Graphs to Enlighten* (2nd ed.). Analytics Press.
 
 
-*"Whoever is faithful in very little is also faithful in much."* — Luke 16:10
-
-As database professionals, our reputation depends on accuracy, integrity, and responsibility. This project demonstrates commitment to excellence in database development and analytical thinking.
-
 ---
 
 **End of README**
